@@ -1,0 +1,34 @@
+name: PR Validation
+on:
+  pull_request:
+    branches:
+      - develop
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm install
+      - name: Lint HTML files
+        run: npx htmlhint src/**/*.html
+      - name: Lint CSS files
+        run: npx stylelint styles/**/*.css
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm install
+      - name: Build project
+        run: npx parcel build src/index.html
